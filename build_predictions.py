@@ -26,8 +26,8 @@ TEMPLATE_PATH = DIR / "html_template.html"
 BURN_IN = 10
 MAE_TIE_EPS = 0.5
 RIDGE_ALPHA = 1.0
-# Dates still open for predictions (no final score). Elite Eight completed — empty until F4 lines exist.
-UPCOMING_DATES: set[str] = set()
+# Dates with scheduled games and valid lines but no final score yet (shown as upcoming in HTML).
+UPCOMING_DATES: set[str] = {"04/04/26"}
 BOOTSTRAP_B = 2500
 # Smaller bootstrap when analyze_misses_vs_line runs inside per-game walk-forward (many calls).
 BOOTSTRAP_B_WALKFORWARD = 600

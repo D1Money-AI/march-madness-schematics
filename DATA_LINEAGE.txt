@@ -23,9 +23,11 @@ SWEET 16 (completed 03/26–03/27/26) — Final scores and totals entered from t
 ELITE EIGHT (completed 03/28–03/29/26) — Final scores from NCAA.com / ESPN / Sporting News recap (Mar 2026): Illinois 71–Iowa 59 (130); Arizona 79–Purdue 64 (143); Michigan 95–Tennessee 62 (157); UConn 73–Duke 72 (145; CSV row is Duke vs UConn so 72–73).
 - Pregame lines on those rows remain the consensus-style numbers already in the sheet.
 - Dashboard: every completed game with a valid line appears in the HTML; each pick is walk-forward (trained on prior games only). The Result column grades pick vs actual total vs line.
-- build_predictions.UPCOMING_DATES is empty until Final Four rows have teams and lines.
+- build_predictions.UPCOMING_DATES targets games not yet scored (see Final Four below).
 
-FINAL FOUR / CHAMPIONSHIP
-- Rows remain TBD / 0.0 until opponents and lines exist.
+FINAL FOUR (04/04/26, upcoming in dashboard) — Matchups from the 2026 NCAA bracket (Illinois vs UConn; Michigan vs Arizona). Pregame-style spread/total filled from widely cited preview odds (e.g. CBS / Sporting News–style lines, Mar 2026): Illinois -2 / 139.5; Michigan -1 / 157.5. Verify against your book before treating as closers.
+
+CHAMPIONSHIP (04/06/26)
+- Row remains TBD / 0.0 until matchup and lines exist; not included in UPCOMING_DATES until filled.
 
 Note: Tournament rounds on 03/16/26 — the men’s NCAA tournament First Four is listed by NCAA as 03/17–03/18/26; there are no men’s DI games in this file on 03/16/26.

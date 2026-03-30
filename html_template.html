@@ -47,9 +47,12 @@
     }
     .accuracy-hero .acc-value {
       font-size: clamp(1.85rem, 5vw, 2.35rem); font-weight: 750;
-      font-variant-numeric: tabular-nums; color: var(--good); line-height: 1.05;
+      font-variant-numeric: tabular-nums; line-height: 1.05;
       letter-spacing: -0.02em;
     }
+    .accuracy-hero .acc-value.acc-tier-bad { color: #f87171; }
+    .accuracy-hero .acc-value.acc-tier-warn { color: #fbbf24; }
+    .accuracy-hero .acc-value.acc-tier-good { color: var(--good); }
     .accuracy-hero .acc-value.muted-acc { color: var(--muted); font-size: 1.5rem; font-weight: 600; }
     .accuracy-hero .acc-aside {
       font-size: 0.84rem; color: var(--muted); line-height: 1.5; max-width: 28rem;
@@ -298,10 +301,15 @@
       const pct = m.model_accuracy_pct;
       const cor = m.model_accuracy_correct;
       const pStr = typeof pct === 'number' ? pct.toFixed(2) : '—';
+      let tier = 'acc-tier-good';
+      if (typeof pct === 'number') {
+        if (pct < 45) tier = 'acc-tier-bad';
+        else if (pct < 50) tier = 'acc-tier-warn';
+      }
       return (
         '<div class="acc-main">' +
         '<div class="acc-label">Model accuracy</div>' +
-        '<div class="acc-value">' + escHtml(pStr) + '%</div></div>' +
+        '<div class="acc-value ' + tier + '">' + escHtml(pStr) + '%</div></div>' +
         '<div class="acc-aside"><strong>' + cor + '</strong> correct out of <strong>' + att + '</strong> games where the model chose Over or Under. Rows with <strong>No pick</strong> are excluded from this denominator. Only completed games with a resolved grade (Confirmed, Failed, or No Action on a push) count.</div>'
       );
     }
