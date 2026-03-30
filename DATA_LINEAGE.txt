@@ -1,0 +1,31 @@
+NCAA_Mens_Tournament_2026_Complete_Results.csv — data lineage (plain text)
+
+SCORES AND MATCHUPS (completed games through Round of 32)
+- Source: NCAA.com March Madness Live men’s bracket as of the repull date.
+- Your previous file mixed in a different (incorrect) bracket: duplicate rows (e.g. Arizona vs Princeton twice), impossible pairings (e.g. Miami vs Drake while Michigan played Drake), and teams that do not appear on the official 2026 bracket (e.g. Texas Southern vs Fairleigh Dickinson in the slot used here).
+
+FIRST FOUR — BetMGM (sports.betmgm.com blog “First Four Odds” table, 2026)
+- Totals: UMBC–Howard 140.5; Texas–NC State 157.5; Lehigh–Prairie View 142.5; SMU–Miami (OH) 164.5
+- Spreads: pick’em for UMBC–Howard and Texas–NC State; Lehigh -3.5; SMU -6.5
+
+MULTI-BOOK LINES (script: python fetch_multibook_lines.py)
+- DraftKings full-game spread and total: pulled from ESPN’s game summary “pickcenter” for NCAA tournament games (group 50, season type 3). ESPN labels the provider as Draft Kings; it is not the same as BetMGM.
+- Optional: set environment variable ODDS_API_KEY (The Odds API, basketball_ncaab) to merge live odds from draftkings, fanduel, betmgm, williamhill_us, betrivers, wynnbet, espnbet, bovada, lowvig, mybookieag. Completed games usually drop off the live feed; ESPN remains the practical backfill for those.
+- Circa Sports is often not exposed on public odds APIs; Circa columns may stay empty unless you paste lines manually or use a vendor that carries them.
+- “Market Over/Under” = median of all numeric totals present among MGM Over/Under and the filled book columns. “Market Point Spread” = MGM/BetMGM when set (including pk); otherwise first numeric spread from the priority list.
+
+ROUND OF 64 / ROUND OF 32 — MGM Over/Under and MGM Point Spread
+- BetMGM cells may still be 0.0 / TBD where you have not entered verified BetMGM closers; the fetcher still fills DraftKings (via ESPN) so the model can use Market columns.
+- To confirm true MGM closers: BetMGM account history / graded slips, or a licensed archive.
+
+SWEET 16 (completed 03/26–03/27/26) — Final scores and totals entered from the official NCAA.com tournament bracket / scoreboard narrative (Mar 2026). Closing lines on those rows remain the pregame values already in the sheet (BetMGM blog / prior sheet / DK medians as documented above).
+
+ELITE EIGHT (completed 03/28–03/29/26) — Final scores from NCAA.com / ESPN / Sporting News recap (Mar 2026): Illinois 71–Iowa 59 (130); Arizona 79–Purdue 64 (143); Michigan 95–Tennessee 62 (157); UConn 73–Duke 72 (145; CSV row is Duke vs UConn so 72–73).
+- Pregame lines on those rows remain the consensus-style numbers already in the sheet.
+- Dashboard: every completed game with a valid line appears in the HTML; each pick is walk-forward (trained on prior games only). The Result column grades pick vs actual total vs line.
+- build_predictions.UPCOMING_DATES is empty until Final Four rows have teams and lines.
+
+FINAL FOUR / CHAMPIONSHIP
+- Rows remain TBD / 0.0 until opponents and lines exist.
+
+Note: Tournament rounds on 03/16/26 — the men’s NCAA tournament First Four is listed by NCAA as 03/17–03/18/26; there are no men’s DI games in this file on 03/16/26.

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DA's March Madness — Ova/Unda Schematics</title>
+  <style>
+    :root {
+      font-family: system-ui, Segoe UI, Roboto, sans-serif;
+      --bg: #0f1419;
+      --card: #1a2332;
+      --text: #e7ecf3;
+      --muted: #8b9cb3;
+      --accent: #3d8bfd;
+      --good: #3ecf8e;
+      --warn: #e6b35a;
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
+    main { max-width: 1040px; margin: 0 auto; padding: 1.25rem 1rem 2rem; }
+    h1 { font-size: 1.35rem; font-weight: 650; margin: 0 0 0.5rem; }
+    .disclaimer {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;
+      border-left: 3px solid var(--warn); padding-left: 0.75rem;
+    }
+    .accuracy-hero {
+      background: linear-gradient(145deg, rgba(61, 139, 253, 0.14) 0%, rgba(26, 35, 50, 0.98) 45%, #1a2332 100%);
+      border: 1px solid #2f4058;
+      border-radius: 14px;
+      padding: 1.15rem 1.35rem;
+      margin-bottom: 1.35rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    @media (min-width: 560px) {
+      .accuracy-hero {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        column-gap: 1.5rem;
+      }
+      .accuracy-hero .acc-main { grid-column: 1; }
+      .accuracy-hero .acc-aside { grid-column: 2; }
+    }
+    .accuracy-hero .acc-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); font-weight: 600; margin-bottom: 0.15rem;
+    }
+    .accuracy-hero .acc-value {
+      font-size: clamp(1.85rem, 5vw, 2.35rem); font-weight: 750;
+      font-variant-numeric: tabular-nums; color: var(--good); line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .accuracy-hero .acc-value.muted-acc { color: var(--muted); font-size: 1.5rem; font-weight: 600; }
+    .accuracy-hero .acc-aside {
+      font-size: 0.84rem; color: var(--muted); line-height: 1.5; max-width: 28rem;
+    }
+    .summary-panel {
+      background: var(--card); border-radius: 14px; padding: 1rem 1.25rem 1.15rem;
+      margin-bottom: 1.25rem; border: 1px solid #263041;
+      font-size: 0.9rem;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.35rem;
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .summary-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1.25rem 1.75rem;
+      }
+      .summary-col--defs {
+        border-right: 1px solid #263041;
+        padding-right: 1.25rem;
+      }
+      .summary-col--context {
+        padding-left: 0.15rem;
+      }
+    }
+    .summary-h {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--good); margin: 0 0 0.5rem; font-weight: 650;
+    }
+    .defs-hint {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin: 0 0 0.55rem;
+      line-height: 1.4;
+    }
+    .def-details {
+      border-bottom: 1px solid #263041;
+    }
+    .def-details:last-child { border-bottom: none; }
+    .def-details summary {
+      cursor: pointer;
+      list-style: none;
+      font-weight: 650;
+      font-size: 0.82rem;
+      color: var(--good);
+      padding: 0.38rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      user-select: none;
+    }
+    .def-details summary::-webkit-details-marker { display: none; }
+    .def-details summary::before {
+      content: '';
+      width: 0.35rem;
+      height: 0.35rem;
+      border-right: 2px solid var(--good);
+      border-bottom: 2px solid var(--good);
+      transform: rotate(-45deg);
+      flex-shrink: 0;
+      margin-top: -0.1rem;
+      transition: transform 0.15s ease;
+    }
+    .def-details[open] summary::before {
+      transform: rotate(45deg);
+      margin-top: 0.1rem;
+    }
+    .def-body {
+      padding: 0 0 0.55rem 1.05rem;
+    }
+    .def-desc {
+      font-size: 0.8rem;
+      color: #ffffff;
+      margin: 0;
+      line-height: 1.55;
+    }
+    .def-desc strong { color: #ffffff; font-weight: 600; }
+    .section-details { border-bottom: 1px solid #263041; }
+    .section-details:last-child { border-bottom: none; }
+    .section-details summary {
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--good);
+      font-weight: 650;
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      user-select: none;
+    }
+    .section-details summary::-webkit-details-marker { display: none; }
+    .section-details summary::before {
+      content: '';
+      width: 0.35rem;
+      height: 0.35rem;
+      border-right: 2px solid var(--good);
+      border-bottom: 2px solid var(--good);
+      transform: rotate(-45deg);
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+    .section-details[open] summary::before {
+      transform: rotate(45deg);
+    }
+    .section-body {
+      padding: 0 0 0.75rem 1.05rem;
+      color: #ffffff;
+    }
+    .section-body .stat-line { font-size: 0.86rem; color: #f1f5f9; margin: 0.4rem 0; line-height: 1.5; }
+    .section-body .stat-line .hl { color: var(--good); font-weight: 600; }
+    .section-body .stat-line.muted-foot,
+    .section-body .stat-line .muted-foot { color: #cbd5e1; }
+    .pick-callout {
+      font-size: 0.84rem;
+      color: #ffffff;
+      line-height: 1.55;
+      background: rgba(61, 139, 253, 0.1);
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      border-left: 3px solid var(--good);
+      margin: 0;
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
+    .filters label { font-size: 0.85rem; color: var(--muted); }
+    select, button {
+      background: var(--card); color: var(--text); border: 1px solid #334155;
+      border-radius: 8px; padding: 0.4rem 0.65rem; font-size: 0.9rem;
+    }
+    button { cursor: pointer; }
+    button:hover { border-color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { text-align: left; padding: 0.55rem 0.5rem; border-bottom: 1px solid #2a3544; }
+    th { color: var(--muted); font-weight: 600; cursor: pointer; user-select: none; }
+    th:hover { color: var(--accent); }
+    tr:hover td { background: rgba(61, 139, 253, 0.06); }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .badge {
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
+      padding: 0.2rem 0.45rem; border-radius: 6px; text-transform: uppercase;
+    }
+    .badge-pick-over { background: #14532d; color: #bbf7d0; font-size: 0.78rem; }
+    .badge-pick-under { background: #7f1d1d; color: #fecaca; font-size: 0.78rem; }
+    .badge-pick-none { background: #334155; color: #cbd5e1; font-size: 0.78rem; }
+    .badge-result-confirmed { background: #14532d; color: #bbf7d0; font-size: 0.78rem; }
+    .badge-result-failed { background: #7f1d1d; color: #fecaca; font-size: 0.78rem; }
+    .badge-result-neutral { background: #334155; color: #cbd5e1; font-size: 0.78rem; }
+    details.row-detail { margin: 0; }
+    details.row-detail summary {
+      cursor: pointer; color: var(--muted); font-size: 0.8rem; list-style: none;
+    }
+    details.row-detail summary::-webkit-details-marker { display: none; }
+    .detail-inner { font-size: 0.78rem; color: var(--muted); padding: 0.35rem 0 0.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="accuracyHero" class="accuracy-hero" aria-label="Model accuracy summary"></div>
+    <h1>DA's March Madness — Ova/Unda Schematics</h1>
+    <p class="disclaimer">
+      Educational only — small sample, no team-level matchup model. Numbers below are for exploration, not betting advice.
+    </p>
+    <div class="summary-panel" id="summary"></div>
+    <div class="filters">
+      <label>Date <select id="dateFilter">
+        <option value="all">All</option>
+      </select></label>
+      <label>Pick <select id="pickFilter" title="Filter by pick direction">
+        <option value="all">All</option>
+        <option value="over">Over</option>
+        <option value="under">Under</option>
+        <option value="none">No pick</option>
+      </select></label>
+      <label>Result <select id="resultFilter" title="Filter by grade vs line">
+        <option value="all">All</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="failed">Failed</option>
+        <option value="no_action">No Action</option>
+        <option value="pending">— (upcoming)</option>
+      </select></label>
+      <button type="button" id="resetSort">Reset sort</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th data-k="date">Date</th>
+          <th data-k="matchup">Matchup</th>
+          <th class="num" data-k="mgm_ou">Line</th>
+          <th data-k="pick_ou" id="th-pick">Pick</th>
+          <th class="num" data-k="actual_total" title="Final combined score (both teams).">Final Score</th>
+          <th data-k="result_code" id="th-result" title="Completed: walk-forward pick vs actual total vs line. Confirmed / Failed / No Action (no pick or push). Upcoming: —.">Result</th>
+          <th
+            class="num"
+            data-k="pred_bias_adjusted"
+            title="Published total plus mean tournament miss (actual − line)."
+          >Bias + line</th>
+          <th
+            class="num"
+            data-k="pred_regression"
+            title="Line plus Ridge-estimated miss from line level, spread size, and day index."
+          >Residual ridge</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </main>
+  <script type="application/json" id="payload">__PAYLOAD__</script>
+  <script>
+    const payload = JSON.parse(document.getElementById('payload').textContent);
+    const games = payload.games;
+    const meta = payload.meta;
+
+    const thPick = document.getElementById('th-pick');
+    if (thPick && meta.ou_pick_rule) thPick.title = meta.ou_pick_rule;
+
+    function escAttr(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;');
+    }
+
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function buildAccuracyHtml() {
+      const m = meta;
+      const att = m.model_accuracy_attempted;
+      if (att == null || att === 0) {
+        return (
+          '<div class="acc-main">' +
+          '<div class="acc-label">Model accuracy</div>' +
+          '<div class="acc-value muted-acc">—</div></div>' +
+          '<div class="acc-aside">No graded directional picks yet. Once there are completed games with an <strong>Over</strong> or <strong>Under</strong> pick (excluding <strong>No pick</strong>), the rate appears here as correct ÷ predicted.</div>'
+        );
+      }
+      const pct = m.model_accuracy_pct;
+      const cor = m.model_accuracy_correct;
+      const pStr = typeof pct === 'number' ? pct.toFixed(2) : '—';
+      return (
+        '<div class="acc-main">' +
+        '<div class="acc-label">Model accuracy</div>' +
+        '<div class="acc-value">' + escHtml(pStr) + '%</div></div>' +
+        '<div class="acc-aside"><strong>' + cor + '</strong> correct out of <strong>' + att + '</strong> games where the model chose Over or Under. Rows with <strong>No pick</strong> are excluded from this denominator. Only completed games with a resolved grade (Confirmed, Failed, or No Action on a push) count.</div>'
+      );
+    }
+
+    function pickLabel(v) {
+      if (v === 'over') {
+        return {
+          text: 'OVER',
+          cls: 'badge-pick-over',
+          title: 'Majority of available signals vs the published line point toward the over.',
+        };
+      }
+      if (v === 'under') {
+        return {
+          text: 'UNDER',
+          cls: 'badge-pick-under',
+          title: 'Majority of available signals vs the published line point toward the under.',
+        };
+      }
+      return {
+        text: 'No pick',
+        cls: 'badge-pick-none',
+        title: 'No majority: models split, on the line, or tournament lean absent.',
+      };
+    }
+
+    function buildSummaryHtml() {
+      const m = meta;
+      let h = '';
+
+      h += '<div class="summary-grid">';
+      h += '<div class="summary-col summary-col--defs">';
+      h += '<h2 class="summary-h">Column definitions</h2>';
+      h += '<p class="defs-hint">Strict variable meanings for the table. Click a row to expand (default collapsed).</p>';
+      h += '<details class="def-details"><summary>Line</summary><div class="def-body"><p class="def-desc">The published full-game total (over/under number) from your sheet—typically the market / BetMGM column the model treats as the closing line for that row.</p></div></details>';
+      h += '<details class="def-details"><summary>Pick</summary><div class="def-body"><p class="def-desc">The model&rsquo;s directional call vs that line: <strong>Over</strong>, <strong>Under</strong>, or <strong>No pick</strong> when signals disagree or sit too close to the line. Built from a majority vote (see right column)—not a single magic formula.</p></div></details>';
+      h += '<details class="def-details"><summary>Final score</summary><div class="def-body"><p class="def-desc">Actual combined points (both teams) after the game. Blank (—) for games not yet played.</p></div></details>';
+      h += '<details class="def-details"><summary>Result</summary><div class="def-body"><p class="def-desc"><strong>Confirmed</strong> = the pick matched the side of the line (final total landed over or under the line as predicted). <strong>Failed</strong> = the pick did not. <strong>No Action</strong> = no directional pick, a push on the exact line, or early &ldquo;warm-up&rdquo; rows before enough history exists. For completed rows, the pick is always <em>walk-forward</em> (only prior games were used to train that prediction).</p></div></details>';
+      h += '<details class="def-details"><summary>Bias + line</summary><div class="def-body"><p class="def-desc">A simple adjusted total: <strong>closing line + mean miss</strong> so far, where miss = (actual total − line) on all <em>prior</em> completed games. It captures &ldquo;has this tournament been going over or under the number on average?&rdquo; without using future games.</p></div></details>';
+      h += '<details class="def-details"><summary>Residual ridge</summary><div class="def-body"><p class="def-desc">A Ridge regression estimates the expected miss from the line using <strong>line level</strong>, <strong>spread size</strong>, and <strong>days into the tournament</strong>, trained only on prior games. The column shows <strong>line + predicted miss</strong>. It can bend the adjustment when totals, spreads, or calendar position relate differently to outcomes.</p></div></details>';
+      h += '</div>';
+
+      h += '<div class="summary-col summary-col--context">';
+      h += '<h2 class="summary-h">Tournament &amp; model notes</h2>';
+      h += '<p class="defs-hint">Rules and aggregate stats. Wider screens show this beside definitions.</p>';
+      h += '<details class="section-details"><summary>How &ldquo;Pick&rdquo; is formed</summary>';
+      h += '<div class="section-body"><p class="pick-callout">' + escHtml(m.ou_pick_rule || '') + '</p></div></details>';
+      h += '<details class="section-details"><summary>Tournament vs the line (full completed sample)</summary>';
+      h += '<div class="section-body">';
+      h += '<p class="stat-line">Games in this summary: <span class="hl">' + (m.n_games_residual != null ? m.n_games_residual : '—') + '</span></p>';
+      h += '<p class="stat-line">Average miss (actual − line): <span class="hl">' + (m.residual_mean != null ? m.residual_mean : '—') + '</span>';
+      if (m.residual_se != null) h += ' · standard error ≈ ' + m.residual_se;
+      h += '</p>';
+      h += '<p class="stat-line">90% bootstrap confidence interval for that average miss: <span class="hl">[';
+      h += (m.residual_boot_ci90_low != null ? m.residual_boot_ci90_low : '—') + ', ';
+      h += (m.residual_boot_ci90_high != null ? m.residual_boot_ci90_high : '—') + ']</span></p>';
+      h += '<p class="stat-line">Games finishing over / under / on the line: <span class="hl">' + (m.n_over != null ? m.n_over : '—') + '</span> / <span class="hl">' + (m.n_under != null ? m.n_under : '—') + '</span>';
+      if (m.pct_over != null) h += ' (' + m.pct_over + '% over)';
+      if (m.binom_p_two_sided_vs_50 != null) h += ' · two-sided <em>p</em> vs 50% on overs (non-pushes): ' + m.binom_p_two_sided_vs_50;
+      h += '</p>';
+      h += '<p class="stat-line muted-foot">Historical miss spread (10th–90th percentile): ' + (m.miss_p10 != null ? m.miss_p10 : '—') + ' to ' + (m.miss_p90 != null ? m.miss_p90 : '—') + ' points.</p>';
+      h += '</div></details>';
+      h += '<details class="section-details"><summary>Walk-forward backtest (total points)</summary>';
+      h += '<div class="section-body">';
+      h += '<p class="stat-line">Mean absolute error predicting the <em>final combined score</em> (not just over/under): <strong>Bias + line</strong> ' + (m.mae_bias != null ? m.mae_bias.toFixed(2) : '—') + ' pts · <strong>Residual ridge</strong> ' + (m.mae_regression != null ? m.mae_regression.toFixed(2) : '—') + ' pts <span class="muted-foot">(n=' + (m.n_backtest != null ? m.n_backtest : '—') + ')</span></p>';
+      h += '<p class="stat-line muted-foot">' + escHtml(m.recommendation_reason || '') + '</p>';
+      h += '</div></details>';
+      h += '</div>';
+      h += '</div>';
+
+      return h;
+    }
+
+    document.getElementById('accuracyHero').innerHTML = buildAccuracyHtml();
+    document.getElementById('summary').innerHTML = buildSummaryHtml();
+
+    const dateFilter = document.getElementById('dateFilter');
+    const dates = [...new Set(games.map((g) => g.date))].sort();
+    dates.forEach((d) => {
+      const o = document.createElement('option');
+      o.value = d;
+      o.textContent = d;
+      dateFilter.appendChild(o);
+    });
+
+    let sortKey = 'date';
+    let sortDir = 1;
+
+    function pickOrder(v) {
+      if (v === 'over') return 0;
+      if (v === 'under') return 1;
+      return 2;
+    }
+
+    function resultOrder(code) {
+      if (code === 'confirmed') return 0;
+      if (code === 'failed') return 1;
+      if (code === 'no_action') return 2;
+      return 3;
+    }
+
+    function resultBadge(g) {
+      const code = g.result_code || 'pending';
+      const label = g.result_label != null ? g.result_label : '—';
+      if (code === 'confirmed') {
+        return { text: label, cls: 'badge-result-confirmed', title: 'Pick matched actual over/under vs the line.' };
+      }
+      if (code === 'failed') {
+        return { text: label, cls: 'badge-result-failed', title: 'Pick did not match actual over/under vs the line.' };
+      }
+      if (code === 'pending') {
+        return { text: label, cls: 'badge-result-neutral', title: 'Game not completed or not yet graded.' };
+      }
+      return { text: label, cls: 'badge-result-neutral', title: 'No pick, push on the line, or warm-up row.' };
+    }
+
+    function fmtNum(v, digits) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      return Number(v).toFixed(digits);
+    }
+
+    function fmtFinalScore(v) {
+      if (v == null || (typeof v === 'number' && isNaN(v))) return '—';
+      const n = Number(v);
+      return Number.isInteger(n) ? String(n) : n.toFixed(1);
+    }
+
+    function cmp(a, b, key) {
+      if (key === 'matchup') {
+        return (a.team_a + ' vs ' + a.team_b).localeCompare(b.team_a + ' vs ' + b.team_b);
+      }
+      if (key === 'pick_ou') {
+        return pickOrder(a.pick_ou) - pickOrder(b.pick_ou);
+      }
+      if (key === 'result_code') {
+        return resultOrder(a.result_code) - resultOrder(b.result_code);
+      }
+      if (key === 'actual_total') {
+        const va = a.actual_total;
+        const vb = b.actual_total;
+        if (va == null && vb == null) return 0;
+        if (va == null) return 1;
+        if (vb == null) return -1;
+        return Number(va) - Number(vb);
+      }
+      const va = a[key];
+      const vb = b[key];
+      if (typeof va === 'number' && typeof vb === 'number') return va - vb;
+      if (va == null && vb == null) return 0;
+      if (va == null) return 1;
+      if (vb == null) return -1;
+      return String(va).localeCompare(String(vb));
+    }
+
+    function applyFilters(list) {
+      const pf = document.getElementById('pickFilter').value;
+      const rf = document.getElementById('resultFilter').value;
+      return list.filter((g) => {
+        const pick = g.pick_ou || 'none';
+        if (pf !== 'all' && pick !== pf) return false;
+        const rc = g.result_code || 'pending';
+        if (rf !== 'all' && rc !== rf) return false;
+        return true;
+      });
+    }
+
+    function render() {
+      const f = dateFilter.value;
+      let rows = f === 'all' ? games.slice() : games.filter((g) => g.date === f);
+      rows = applyFilters(rows);
+      rows.sort((a, b) => sortDir * cmp(a, b, sortKey));
+      const tb = document.getElementById('tbody');
+      tb.innerHTML = '';
+      rows.forEach((g) => {
+        const P = pickLabel(g.pick_ou || 'none');
+        const pt = P.title ? ' title="' + escAttr(P.title) + '"' : '';
+        const R = resultBadge(g);
+        const rt = R.title ? ' title="' + escAttr(R.title) + '"' : '';
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + g.date + '</td>' +
+          '<td>' + g.team_a + ' vs ' + g.team_b + '</td>' +
+          '<td class="num">' + g.mgm_ou.toFixed(1) + '</td>' +
+          '<td><span class="badge ' + P.cls + '"' + pt + '>' + P.text + '</span></td>' +
+          '<td class="num">' + fmtFinalScore(g.actual_total) + '</td>' +
+          '<td><span class="badge ' + R.cls + '"' + rt + '>' + escAttr(R.text) + '</span></td>' +
+          '<td class="num">' + fmtNum(g.pred_bias_adjusted, 2) + '</td>' +
+          '<td class="num">' + fmtNum(g.pred_regression, 2) + '</td>';
+        tb.appendChild(tr);
+        const dtr = document.createElement('tr');
+        const dtd = document.createElement('td');
+        dtd.colSpan = 8;
+        let recTxt = '';
+        if (meta.recommended_model === 'bias') recTxt = 'Bias + line';
+        else if (meta.recommended_model === 'regression') recTxt = 'Residual ridge';
+        else recTxt = meta.rec_badge_tie_text || 'Tie / weak';
+        let leanTxt = g.lean_vs_line === 'over' ? 'Over' : g.lean_vs_line === 'under' ? 'Under' : 'No lean';
+        let det =
+          '<strong>Pick detail:</strong> ' + escAttr(g.pick_reason || '') +
+          '<br><strong>Tournament lean (bootstrap):</strong> ' + leanTxt +
+          '<br><strong>Lower backtest MAE:</strong> ' + escAttr(recTxt) +
+          ' · Spread mag: ' + g.spread_mag.toFixed(1) +
+          ' · Mean miss: ' + (g.bias_offset_used != null ? g.bias_offset_used : '—');
+        if (g.actual_total != null) {
+          let side = g.actual_total > g.mgm_ou ? 'over' : g.actual_total < g.mgm_ou ? 'under' : 'push';
+          det += '<br><strong>Actual total:</strong> ' + g.actual_total + ' vs line ' + g.mgm_ou.toFixed(1) + ' → ' + side;
+        }
+        if (g.bias_interval_lo != null && g.bias_interval_hi != null) {
+          det += '<br>90% CI (line + mean miss): [' + g.bias_interval_lo + ', ' + g.bias_interval_hi + ']';
+        }
+        if (g.empirical_miss_fan_lo != null && g.empirical_miss_fan_hi != null) {
+          det += '<br>Line + hist. miss 10–90%: [' + g.empirical_miss_fan_lo + ', ' + g.empirical_miss_fan_hi + ']';
+        }
+        dtd.innerHTML =
+          '<details class="row-detail"><summary>Why this pick &amp; model notes</summary><div class="detail-inner">' +
+          det +
+          '</div></details>';
+        dtr.appendChild(dtd);
+        tb.appendChild(dtr);
+      });
+    }
+
+    document.querySelectorAll('th[data-k]').forEach((th) => {
+      th.addEventListener('click', () => {
+        const k = th.getAttribute('data-k');
+        if (sortKey === k) sortDir *= -1;
+        else {
+          sortKey = k;
+          sortDir = 1;
+        }
+        render();
+      });
+    });
+
+    document.getElementById('resetSort').addEventListener('click', () => {
+      sortKey = 'date';
+      sortDir = 1;
+      render();
+    });
+
+    dateFilter.addEventListener('change', render);
+    document.getElementById('pickFilter').addEventListener('change', render);
+    document.getElementById('resultFilter').addEventListener('change', render);
+    render();
+  </script>
+</body>
+</html>
