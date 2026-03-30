@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/march_madness_totals_2026.html" }
+  ]
+}
