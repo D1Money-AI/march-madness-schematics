@@ -27,7 +27,7 @@ BURN_IN = 10
 MAE_TIE_EPS = 0.5
 RIDGE_ALPHA = 1.0
 # Dates with scheduled games and valid lines but no final score yet (shown as upcoming in HTML).
-UPCOMING_DATES: set[str] = {"04/04/26"}
+UPCOMING_DATES: set[str] = {"04/06/26"}
 BOOTSTRAP_B = 2500
 # Smaller bootstrap when analyze_misses_vs_line runs inside per-game walk-forward (many calls).
 BOOTSTRAP_B_WALKFORWARD = 600

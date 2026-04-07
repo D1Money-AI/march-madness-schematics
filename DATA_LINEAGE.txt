@@ -25,9 +25,8 @@ ELITE EIGHT (completed 03/28–03/29/26) — Final scores from NCAA.com / ESPN /
 - Dashboard: every completed game with a valid line appears in the HTML; each pick is walk-forward (trained on prior games only). The Result column grades pick vs actual total vs line.
 - build_predictions.UPCOMING_DATES targets games not yet scored (see Final Four below).
 
-FINAL FOUR (04/04/26, upcoming in dashboard) — Matchups from the 2026 NCAA bracket (Illinois vs UConn; Michigan vs Arizona). Pregame-style spread/total filled from widely cited preview odds (e.g. CBS / Sporting News–style lines, Mar 2026): Illinois -2 / 139.5; Michigan -1 / 157.5. Verify against your book before treating as closers.
+FINAL FOUR (04/04/26, completed) — Scores from NCAA / ESPN (Apr 2026): UConn 71–Illinois 62 (133); Michigan 91–Arizona 73 (164). Closing lines on rows are the pregame numbers previously in the sheet.
 
-CHAMPIONSHIP (04/06/26)
-- Row remains TBD / 0.0 until matchup and lines exist; not included in UPCOMING_DATES until filled.
+CHAMPIONSHIP (04/06/26, upcoming until final) — Michigan vs UConn. Spread/total from ESPN game odds / preview reporting (e.g. Michigan -6.5, 146.5) while scores remain 0 so the model can still emit a pick before the final. Update scores and total when the game ends.
 
 Note: Tournament rounds on 03/16/26 — the men’s NCAA tournament First Four is listed by NCAA as 03/17–03/18/26; there are no men’s DI games in this file on 03/16/26.
